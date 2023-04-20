@@ -30,65 +30,84 @@ SaveToStreamVisitor::SaveToStreamVisitor(std::string fname)
 {
 }
 
-void SaveToStreamVisitor::visitDateProperty(DateProperty& prop)
-{
-	// À compléter: traiter la propriété
-
+void SaveToStreamVisitor::visitDateProperty(DateProperty& prop) {
+    // ï¿½ complï¿½ter: traiter la propriÃ©tÃ©
+    indent(m_stream);
+    //m_stream << "Date: " << prop.getName() << prop.getValueAsString();
+    m_stream << prop.getName() << ": " << prop.getDate().getYear() << "/" << prop.getDate().getMonth() << "/" << prop.getDate().getDay() << std::endl;
 }
 
 void SaveToStreamVisitor::visitDateProperty(const DateProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complÃ©ter: traiter la propriÃ©tÃ©
+    indent(m_stream);
+    //m_stream << "Date: " << prop.getName() << prop.getDate().getYear() << prop.getValueAsString();
+    m_stream << prop.getName() << ": " << prop.getDate().getYear() << "/" << prop.getDate().getMonth() << "/" << prop.getDate().getDay() << std::endl;
 }
+
 
 void SaveToStreamVisitor::visitFloatProperty(FloatProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    //indent(m_stream);
+    std::cout << "Float: " << prop.getName() << std::endl;
 }
+
 
 void SaveToStreamVisitor::visitFloatProperty(const FloatProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << "Float: " << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitIntProperty(IntProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << "Float: " << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitIntProperty(const IntProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << "Float: " << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitSectionProperty(SectionProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << "Float: " << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitSectionProperty(const SectionProperty& prop)
 {
-	// À compléter: afficher le titre de la section, indenter et traiter chaque propriété de la section
+	// ï¿½ complï¿½ter: afficher le titre de la section, indenter et traiter chaque propriï¿½tï¿½ de la section
+
+
+
 }
 
 void SaveToStreamVisitor::visitStringProperty(StringProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitStringProperty(const StringProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitURLProperty(URLProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::visitURLProperty(const URLProperty& prop)
 {
-	// À compléter: traiter la propriété
+	// ï¿½ complï¿½ter: traiter la propriï¿½tï¿½
+    std::cout << prop.getName() << std::endl;
 }
 
 void SaveToStreamVisitor::indent(std::ostream& o) const
@@ -99,6 +118,8 @@ void SaveToStreamVisitor::indent(std::ostream& o) const
 
 void SaveToStreamVisitor::defaultVisitProperty(const BaseProperty& prop)
 {
-	// À compléter: méthode par défaut permettant de traiter une propriété
+	// ï¿½ complï¿½ter: mï¿½thode par dï¿½faut permettant de traiter une propriï¿½tï¿½
+
+
 }
 
