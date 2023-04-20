@@ -8,7 +8,7 @@
 #if !defined(EA_8E5D2397_634B_415c_8041_6F5D06B8A5CD__INCLUDED_)
 #define EA_8E5D2397_634B_415c_8041_6F5D06B8A5CD__INCLUDED_
 
-// CETTE PORTION DU FICHIER NE DOIT PAS ÊTRE MODIFIÉE
+// CETTE PORTION DU FICHIER NE DOIT PAS ï¿½TRE MODIFIï¿½E
 #include <functional>
 
 #include "DateProperty.h"
@@ -46,7 +46,6 @@ public:
 	virtual PropertyIterator end();
 	virtual PropertyIterator_const cbegin() const;
 	virtual PropertyIterator_const cend() const;
-
 	virtual void reset();
 
 protected:
@@ -62,134 +61,184 @@ protected:
 
 	PropertyContainer m_properties;
 };
-// FIN DE LA PORTION QUI NE DOIT PAS ÊTRE MODIFIÉE
+// FIN DE LA PORTION QUI NE DOIT PAS ï¿½TRE MODIFIï¿½E
 
-// CETTE PORTION DU FICHIER EST À COMPLÉTER
+// CETTE PORTION DU FICHIER EST ï¿½ COMPLï¿½TER
 template<typename OP_COMPARE>
-SimpleSearchVisitor<OP_COMPARE>::SimpleSearchVisitor(const BaseProperty& searchProp)
-// À COMPLÉTER: Initialiser tous les attributs
+SimpleSearchVisitor<OP_COMPARE>::SimpleSearchVisitor(const BaseProperty& searchProp):
+        m_compareOp(OP_COMPARE()),
+        m_searchPropertyInitialized(false),
+        m_datePropertyPtr(nullptr),
+        m_floatPropertyPtr(nullptr),
+        m_intPropertyPtr(nullptr),
+        m_sectionPropertyPtr(nullptr),
+        m_stringPropertyPtr(nullptr),
+        m_URLPropertyPtr(nullptr)
+// ï¿½ COMPLï¿½TER: Initialiser tous les attributs
 {
-	// À COMPLÉTER: traiter la propriété reçue en paramètre et indiquer que la référence a été initialisée
+	// ï¿½ COMPLï¿½TER: traiter la propriï¿½tï¿½ reÃ§ue en paramï¿½tre et indiquer que la rï¿½fï¿½rence a ï¿½tï¿½ initialisï¿½e
+    //m_searchProp= &searchProp;
+    searchProp.accept(*this);
+    m_searchPropertyInitialized = true;
 }
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitDateProperty(DateProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
+	// ï¿½ COMPLÃ©tER: utiliser la version  de la mÃ©thode recevant une propriÃ©tÃ© const
+    const DateProperty& constProp = prop;
+    visitDateProperty(constProp);
 }
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitFloatProperty(FloatProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
+	// ï¿½ COMPLï¿½TER: utiliser la version  de la mï¿½thode recevant une propriï¿½tï¿½ const
+    const FloatProperty& constProp = prop;
+    visitFloatProperty(constProp);
 }
-
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(IntProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
+	// ï¿½ COMPLï¿½TER: utiliser la version  de la mï¿½thode recevant une propriï¿½tï¿½ const
+    const IntProperty& constProp = prop;
+    visitIntProperty(constProp);
+
 }
 
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitSectionProperty(SectionProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
+	// ï¿½ COMPLï¿½TER: utiliser la version  de la mï¿½thode recevant une propriï¿½tï¿½ const
+    const SectionProperty& constProp = prop;
+    visitSectionProperty(constProp);
+
 }
 
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitStringProperty(StringProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
-}
+	// ï¿½ COMPLï¿½TER: utiliser la version  de la mï¿½thode recevant une propriï¿½tï¿½ const
+    const StringProperty& constProp = prop;
+    visitStringProperty(constProp);
 
+}
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitURLProperty(URLProperty& prop)
 {
-	// À COMPLÉTER: utiliser la version  de la méthode recevant une propriété const
+	// ï¿½ COMPLï¿½TER: utiliser la version  de la mï¿½thode recevant une propriï¿½tï¿½ const
+    const URLProperty& constProp = prop;
+    visitURLProperty(constProp);
 }
 
 template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitDateProperty(const DateProperty& prop)
-{
-	// À COMPLÉTER: traitement en 2 temps
-	//    1- Si l'état du visiteur n'a pas été initialisé, la propriété est la référence
-	//    2- Si l'état est initialisé, effectuer la comparaison à l'aide de l'opérateur de comparaison
+void SimpleSearchVisitor<OP_COMPARE>::visitDateProperty(const DateProperty& prop) {
+    // ï¿½ COMPLï¿½TER: traitement en 2 temps
+    //    1- Si l'Ã©tat du visiteur n'a pas Ã©tÃ© initialisÃ©, la propriÃ©tÃ© est la rÃ©fÃ©rence
+    //    2- Si l'Ã©tat est initialisÃ©, effectuer la comparaison Ã  l'aide de l'opÃ©rateur de comparaison
+    if (!this->m_searchPropertyInitialized) {
+        m_datePropertyPtr = &prop;
+        this -> m_searchPropertyInitialized = true;
+    }
+    else if( m_datePropertyPtr != nullptr && m_compareOp(prop, *m_datePropertyPtr)){
+        m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
+    }
 }
 
 template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitFloatProperty(const FloatProperty& prop)
-{
-	// À COMPLÉTER: traitement en 2 temps
-	//    1- Si l'état du visiteur n'a pas été initialisé, la propriété est la référence
-	//    2- Si l'état est initialisé, effectuer la comparaison à l'aide de l'opérateur de comparaison
+void SimpleSearchVisitor<OP_COMPARE>::visitFloatProperty(const FloatProperty& prop) {
+    // ï¿½ COMPLï¿½TER: traitement en 2 temps
+    //    1- Si l'ï¿½tat du visiteur n'a pas ï¿½tï¿½ initialisï¿½, la propriï¿½tï¿½ est la rï¿½fï¿½rence
+    //    2- Si l'ï¿½tat est initialisï¿½, effectuer la comparaison ï¿½ l'aide de l'opï¿½rateur de comparaison
+    if (!this->m_searchPropertyInitialized) {
+        m_floatPropertyPtr = &prop;
+        this -> m_searchPropertyInitialized = true;
+    }
+    else if( m_floatPropertyPtr != nullptr && m_compareOp(prop, *m_floatPropertyPtr)){
+        m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
+    }
 }
 
 template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(const IntProperty& prop)
-{
-	// À COMPLÉTER: traitement en 2 temps
-	//    1- Si l'état du visiteur n'a pas été initialisé, la propriété est la référence
-	//    2- Si l'état est initialisé, effectuer la comparaison à l'aide de l'opérateur de comparaison
+void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(const IntProperty& prop) {
+    // ï¿½ COMPLï¿½TER: traitement en 2 temps
+    //    1- Si l'ï¿½tat du visiteur n'a pas ï¿½tï¿½ initialisï¿½, la propriï¿½tï¿½ est la rï¿½fï¿½rence
+    //    2- Si l'ï¿½tat est initialisï¿½, effectuer la comparaison ï¿½ l'aide de l'opï¿½rateur de comparaison
+    if (!this->m_searchPropertyInitialized) {
+        m_intPropertyPtr = &prop;
+        this -> m_searchPropertyInitialized = true;
+    }
+    else if( m_intPropertyPtr != nullptr && m_compareOp(prop, *m_intPropertyPtr)){
+        m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
+    }
 }
 
-template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitSectionProperty(const SectionProperty& prop)
-{
-	// À compléter:
-	// L'initialisation doit déjà être faite, une SectionProperty ne peut pas être utilisée pour initialiser l'état
-	// Si l'état est initialisé, traiter toutes les propriétés de la section
-}
+    template<typename OP_COMPARE>
+    void SimpleSearchVisitor<OP_COMPARE>::visitSectionProperty(const SectionProperty &prop) {
+        // ï¿½ complï¿½ter:
+        // L'initialisation doit dï¿½jï¿½ ï¿½tre faite, une SectionProperty ne peut pas ï¿½tre utilisï¿½e pour initialiser l'ï¿½tat
+        // Si l'ï¿½tat est initialisï¿½, traiter toutes les propriï¿½tï¿½s de la section
+    }
 
-template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitStringProperty(const StringProperty& prop)
-{
-	// À COMPLÉTER: traitement en 2 temps
-	//    1- Si l'état du visiteur n'a pas été initialisé, la propriété est la référence
-	//    2- Si l'état est initialisé, effectuer la comparaison à l'aide de l'opérateur de comparaison
-}
+    template<typename OP_COMPARE>
+    void SimpleSearchVisitor<OP_COMPARE>::visitStringProperty(const StringProperty &prop) {
+        // ï¿½ COMPLï¿½TER: traitement en 2 temps
+        //    1- Si l'ï¿½tat du visiteur n'a pas ï¿½tï¿½ initialisï¿½, la propriï¿½tï¿½ est la rï¿½fï¿½rence
+        //    2- Si l'ï¿½tat est initialisï¿½, effectuer la comparaison ï¿½ l'aide de l'opï¿½rateur de comparaison
 
-template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::visitURLProperty(const URLProperty& prop)
-{
-	// À COMPLÉTER: traitement en 2 temps
-	//    1- Si l'état du visiteur n'a pas été initialisé, la propriété est la référence
-	//    2- Si l'état est initialisé, effectuer la comparaison à l'aide de l'opérateur de comparaison
-}
+        if (!this->m_searchPropertyInitialized) {
+            m_stringPropertyPtr = &prop;
+            this -> m_searchPropertyInitialized = true;
+        }
+        else if( m_stringPropertyPtr != nullptr && m_compareOp(prop, *m_stringPropertyPtr)){
+            m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
+        }
+    }
 
-template<typename OP_COMPARE>
-PropertyIterator SimpleSearchVisitor<OP_COMPARE>::begin()
-{
-	return m_properties.begin();
-}
+    template<typename OP_COMPARE>
+    void SimpleSearchVisitor<OP_COMPARE>::visitURLProperty(const URLProperty &prop) {
+        // ï¿½ COMPLï¿½TER: traitement en 2 temps
+        //    1- Si l'ï¿½tat du visiteur n'a pas ï¿½tï¿½ initialisï¿½, la propriï¿½tï¿½ est la rï¿½fï¿½rence
+        //    2- Si l'ï¿½tat est initialisï¿½, effectuer la comparaison ï¿½ l'aide de l'opï¿½rateur de comparaison
+        if (!this->m_searchPropertyInitialized) {
+            m_URLPropertyPtr = &prop;
+            this -> m_searchPropertyInitialized = true;
+        }
+        else if( m_URLPropertyPtr != nullptr && m_compareOp(prop, *m_URLPropertyPtr)){
+            m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
+        }
 
-template<typename OP_COMPARE>
-PropertyIterator SimpleSearchVisitor<OP_COMPARE>::end()
-{
-	return m_properties.end();
-}
+    }
 
-template<typename OP_COMPARE>
-PropertyIterator_const SimpleSearchVisitor<OP_COMPARE>::cbegin() const
-{
-	return m_properties.cbegin();
-}
+    template<typename OP_COMPARE>
+    PropertyIterator SimpleSearchVisitor<OP_COMPARE>::begin() {
+        return m_properties.begin();
+    }
 
-template<typename OP_COMPARE>
-PropertyIterator_const SimpleSearchVisitor<OP_COMPARE>::cend() const
-{
-	return m_properties.cend();
-}
+    template<typename OP_COMPARE>
+    PropertyIterator SimpleSearchVisitor<OP_COMPARE>::end() {
+        return m_properties.end();
+    }
 
-template<typename OP_COMPARE>
-void SimpleSearchVisitor<OP_COMPARE>::reset()
-{
-	// À COMPLÉTER: réinitialiser l'état du visiteur
-}
+    template<typename OP_COMPARE>
+    PropertyIterator_const SimpleSearchVisitor<OP_COMPARE>::cbegin() const {
+        return m_properties.cbegin();
+    }
 
-// FIN DE LA PORTION DU FICHIER QUI EST À COMPLÉTER
+    template<typename OP_COMPARE>
+    PropertyIterator_const SimpleSearchVisitor<OP_COMPARE>::cend() const {
+        return m_properties.cend();
+    }
+
+    template<typename OP_COMPARE>
+    void SimpleSearchVisitor<OP_COMPARE>::reset() {
+        // ï¿½ COMPLï¿½TER: rï¿½initialiser l'ï¿½tat du visiteur
+    }
+
+// FIN DE LA PORTION DU FICHIER QUI EST ï¿½ COMPLï¿½TER
 
 #endif // !defined(EA_8E5D2397_634B_415c_8041_6F5D06B8A5CD__INCLUDED_)
