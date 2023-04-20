@@ -13,7 +13,7 @@
 #include "StringProperty.h"
 #include "URLProperty.h"
 
-int SaveToStreamVisitor::m_indent = 3;
+int SaveToStreamVisitor::m_indent = 0;
 
 SaveToStreamVisitor::SaveToStreamVisitor()
 	: m_stream(std::cout)
@@ -38,6 +38,7 @@ void SaveToStreamVisitor::visitDateProperty(DateProperty& prop) {
 void SaveToStreamVisitor::visitDateProperty(const DateProperty& prop)
 {
 	// � compléter: traiter la propriété
+    indent(m_stream);
     std::cout<<prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
@@ -45,6 +46,7 @@ void SaveToStreamVisitor::visitDateProperty(const DateProperty& prop)
 void SaveToStreamVisitor::visitFloatProperty(FloatProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
@@ -52,18 +54,21 @@ void SaveToStreamVisitor::visitFloatProperty(FloatProperty& prop)
 void SaveToStreamVisitor::visitFloatProperty(const FloatProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    //indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
 void SaveToStreamVisitor::visitIntProperty(IntProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    indent(m_stream);
     std::cout<<prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
 void SaveToStreamVisitor::visitIntProperty(const IntProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    indent(m_stream);
     std::cout<<prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
@@ -78,6 +83,7 @@ void SaveToStreamVisitor::visitSectionProperty(const SectionProperty& prop) {
     // � compl�ter: afficher le titre de la section, indenter et traiter chaque propri�t� de la section
 
     std::cout << prop.getName() << prop.getValueAsString() << std::endl;
+    //indent(m_stream);
 
     for(auto it = prop.cbegin(); it != prop.cend(); ++it) {
         indent(m_stream);
@@ -85,33 +91,33 @@ void SaveToStreamVisitor::visitSectionProperty(const SectionProperty& prop) {
         it->accept(*this);
         m_indent--;
     }
-
-
 }
 
 void SaveToStreamVisitor::visitStringProperty(StringProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 
 }
 
 void SaveToStreamVisitor::visitStringProperty(const StringProperty& prop)
 {
-
+    indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
 void SaveToStreamVisitor::visitURLProperty(URLProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
+    indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 }
 
 void SaveToStreamVisitor::visitURLProperty(const URLProperty& prop)
 {
 	// � compl�ter: traiter la propri�t�
-
+    indent(m_stream);
     std::cout << prop.getName() <<": " << prop.getValueAsString() << std::endl;
 
 }
@@ -125,7 +131,6 @@ void SaveToStreamVisitor::indent(std::ostream& o) const
 void SaveToStreamVisitor::defaultVisitProperty(const BaseProperty& prop)
 {
 	// � compl�ter: m�thode par d�faut permettant de traiter une propri�t�
-    indent(m_stream);
     m_stream<< prop.getName()<<" : "<<prop.getValueAsString()<< std::endl;
 }
 
