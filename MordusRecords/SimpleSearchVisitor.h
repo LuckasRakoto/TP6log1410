@@ -58,7 +58,6 @@ protected:
 	const SectionProperty* m_sectionPropertyPtr;
 	const StringProperty* m_stringPropertyPtr;
 	const URLProperty* m_URLPropertyPtr;
-
 	PropertyContainer m_properties;
 };
 // FIN DE LA PORTION QUI NE DOIT PAS �TRE MODIFI�E
@@ -104,9 +103,7 @@ void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(IntProperty& prop)
 	// � COMPL�TER: utiliser la version  de la m�thode recevant une propri�t� const
     const IntProperty& constProp = prop;
     visitIntProperty(constProp);
-
 }
-
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitSectionProperty(SectionProperty& prop)
@@ -116,7 +113,6 @@ void SimpleSearchVisitor<OP_COMPARE>::visitSectionProperty(SectionProperty& prop
     visitSectionProperty(constProp);
 
 }
-
 
 template<typename OP_COMPARE>
 void SimpleSearchVisitor<OP_COMPARE>::visitStringProperty(StringProperty& prop)
@@ -182,6 +178,11 @@ void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(const IntProperty& prop) 
         // � compl�ter:
         // L'initialisation doit d�j� �tre faite, une SectionProperty ne peut pas �tre utilis�e pour initialiser l'�tat
         // Si l'�tat est initialis�, traiter toutes les propri�t�s de la section
+        if(this->m_searchPropertyInitialized){
+            for(auto it = prop.cbegin(); it != prop.cend(); ++it){
+                it->accept(*this);
+            }
+        }
     }
 
     template<typename OP_COMPARE>
@@ -211,7 +212,6 @@ void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(const IntProperty& prop) 
         else if( m_URLPropertyPtr != nullptr && m_compareOp(prop, *m_URLPropertyPtr)){
             m_properties.push_back(std::unique_ptr<BaseProperty>(prop.clone()));
         }
-
     }
 
     template<typename OP_COMPARE>
@@ -237,6 +237,7 @@ void SimpleSearchVisitor<OP_COMPARE>::visitIntProperty(const IntProperty& prop) 
     template<typename OP_COMPARE>
     void SimpleSearchVisitor<OP_COMPARE>::reset() {
         // � COMPL�TER: r�initialiser l'�tat du visiteur
+        m_searchPropertyInitialized=false;
     }
 
 // FIN DE LA PORTION DU FICHIER QUI EST � COMPL�TER
